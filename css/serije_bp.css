@@ -1,0 +1,27 @@
+body {
+    background-image: url(../blank_page.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.jumbotron {
+    height: 140px;
+    background-color: rgba(255,255,255,1); 
+}
+
+.container .jumbotron {
+    padding-left: 330px;
+    padding-top: 0px;
+}
+
+.table {
+    background-color: rgba(255,255,255,1);
+}
+
+.vertical-center {
+    min-height: 10%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 10vh; /* These two lines are counted as one :-)       */
+  
+    display: flex;
+    align-items: center;
+  }

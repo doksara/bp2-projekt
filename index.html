@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TV Serije - BP</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="css/serije_bp.css">
+</head>
+<body>
+    
+    <div class="container">
+
+        <div id="tableManager" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Nova serija</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="editContent">
+                            <input type="text" class="form-control" placeholder="Naziv serije" id="naziv"><br>
+                            <textarea class="form-control" placeholder="Kratki opis serije.." id="opis"></textarea><br>
+                            <p>Vasa ocjena:</p>
+                            <select class="form-control" id="ocjena">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                            <input type="hidden" id="editRowID" value="0">
+                        </div>
+
+                        <div id="showContent" style="display:none;">
+                            <h3>Opis serije</h3>
+                            <div id="opisView"></div>
+                            <hr>
+                            <h3>Ocjena</h3>
+                            <div id="ocjenaView"></div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">Zatvori</button>
+                          <input type="button" id="manageBtn" value="Spremi" onclick="spremiPodatke('dodajNovu')" class="btn btn-success">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="jumbotron vertical-center">
+            <h1>              BP2 - TV serije</h1>
+            <br><br><br>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <input style="float: right" type="button" id="dodajNovu" class="btn btn-success" value="Dodaj Novu">
+                <br><br>
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <td class="col-md-1">#</td>
+                            <td class="col-md-3">Naziv</td>
+                            <td class="col-md-4">Opis</td>
+                            <td class="col-md-1">Ocjena</td>
+                            <td class="col-md-3">Opcije</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/jquery.dataTables.js"></script>
+    <script src="js/dataTables.bootstrap.js"></script>
+    <script src="js/funkcije.js"></script>
+</body>
+</html>
