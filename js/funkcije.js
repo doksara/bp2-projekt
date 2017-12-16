@@ -29,6 +29,7 @@ $(document).ready(function() {
                     }, success: function (response) {
                         $("#serije_"+rowID).parent().remove();
                         alert(response);
+                        location.reload();
                     }
                 });
             }
@@ -111,6 +112,7 @@ $(document).ready(function() {
                             opis.val('');
                             ocjena.val('');
                             $("#tableManager").modal('hide');
+                            location.reload();
                             $("#manageBtn").attr('value','Dodaj').attr('onclick',"spremiPodatke('dodajNovu')");
                         }
                     }

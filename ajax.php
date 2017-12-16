@@ -31,9 +31,9 @@
                             <td id="serije_'.$data["id"].'">'.$data["opis"].'</td>
                             <td id="serije_'.$data["id"].'">'.$data["ocjena"].'</td>
                             <td>
-                                <input type="button" onclick="viewORedit('.$data["id"].', \'edit\')" value="Edit" class="btn btn-primary">
-                                <input type="button" onclick="viewORedit('.$data["id"].', \'view\')" value="View" class="btn btn-info">
-                                <input type="button" onclick="deleteRow('.$data["id"].')" value="Delete" class="btn btn-danger">
+                                <input type="button" onclick="viewORedit('.$data["id"].', \'edit\')" value="Azuriraj" class="btn btn-primary">
+                                <input type="button" onclick="viewORedit('.$data["id"].', \'view\')" value="Pregledaj" class="btn btn-info">
+                                <input type="button" onclick="deleteRow('.$data["id"].')" value="Izbrisi" class="btn btn-danger">
                             </td>
                         </tr>
                     ';
@@ -67,7 +67,7 @@
             else {
                 $conn->query("INSERT INTO serije (naziv, opis, ocjena)
                               VALUES ('$naziv', '$opis', '$ocjena')");
-                exit("TV serija je uspjesno unesena!");
+                exit("success");
             }
         }
     }

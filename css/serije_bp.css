@@ -1,12 +1,17 @@
 body {
-    background-image: url(../blank_page.png);
     background-size: cover;
     background-position: center;
+    font-family: 'Roboto Slab', serif;
 }
 
 .jumbotron {
-    height: 140px;
-    background-color: rgba(255,255,255,1); 
+    height: 250px;
+    background-image: url(../OM.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    border: 1.5px solid black;
 }
 
 .container .jumbotron {
@@ -15,13 +20,12 @@ body {
 }
 
 .table {
-    background-color: rgba(255,255,255,1);
+    border: 1.5px solid black;
+    border-radius: 5px;
 }
 
-.vertical-center {
-    min-height: 10%;  /* Fallback for browsers do NOT support vh unit */
-    min-height: 10vh; /* These two lines are counted as one :-)       */
-  
-    display: flex;
-    align-items: center;
-  }
+.odvoji {
+    margin-left: 2px;
+    margin-right: 2px;
+    margin-bottom: 3px;
+}
