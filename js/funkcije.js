@@ -14,6 +14,20 @@ $(document).ready(function() {
                $("#manageBtn").show();
             });
 
+            $("#dodajGlumca").on('click', function () {
+                $("#tableManagerGlumac").modal('show');
+            });
+
+            $("#tableManagerGlumac").on('hidden.bs.modal', function (){
+               $("#showContentGlumac").fadeOut();
+               $("#editContentGlumac").fadeIn();
+               $("#editRowIDGlumac").val(0);
+               $("#nazivGlumca").val("");
+               $("#glumacSerija").val("");
+               $("#manageBtnGlumac").attr('value', 'Dodaj novog').attr('onclick', "spremiGlumca('dodajGlumca')");
+               $("#manageBtnGlumac").show();
+            });
+
             getExistingData(0, 10);
         });
 
@@ -49,6 +63,7 @@ $(document).ready(function() {
                         $("#editContent").fadeOut();
                         $("#opisView").html(response.opis);
                         $("#ocjenaView").html(response.ocjena);
+                        $("#nazivGlumcaView").html(response.nazivGlumca);
                         $("#manageBtn").hide();
                     } else {
                         $("#editContent").fadeIn();
@@ -56,7 +71,6 @@ $(document).ready(function() {
                         $("#showContent").fadeOut();
                         $("#naziv").val(response.naziv);
                         $("#opis").val(response.opis);
-                        $("#ocjena").val(response.ocjena);
                         $("#manageBtn").attr('value', 'Spremi promjene').attr('onclick', "spremiPodatke('updateRow')");
                     }
 
@@ -112,8 +126,45 @@ $(document).ready(function() {
                             opis.val('');
                             ocjena.val('');
                             $("#tableManager").modal('hide');
-                            location.reload();
                             $("#manageBtn").attr('value','Dodaj').attr('onclick',"spremiPodatke('dodajNovu')");
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        }
+
+        function spremiGlumca(key) {
+            var nazivGlumca = $("#nazivGlumca");
+            var spolGlumca = $("#spolGlumca");
+            var datumRodenja = $("#datumRodenja");
+            var glumacSerija = $("#glumacSerija")
+            var editRowIDGlumac  = $("#editRowIDGlumac");
+
+            if (isNotEmpty(nazivGlumca)) {
+                $.ajax({
+                    url: 'ajax.php',
+                    method: 'POST',
+                    dataType: 'text',
+                    data: {
+                        key: key,
+                        nazivGlumca: nazivGlumca.val(),
+                        spolGlumca: spolGlumca.val(),
+                        datumRodenja: datumRodenja.val(),
+                        glumacSerija: glumacSerija.val(),
+                        rowID: editRowIDGlumac.val()
+                    }, success: function (response) {
+                        if (response != "success")
+                            alert(response);
+                        else {
+                            $("#glumac_"+editRowIDGlumac.val()).html(nazivGlumca.val());
+                            nazivGlumca.val('');
+                            spolGlumca.val('');
+                            datumRodenja.val('');
+                            glumacSerija.val('');
+                            $("#tableManagerGlumac").modal('hide');
+                            $("#manageBtnGlumac").attr('value','Dodaj Glumca').attr('onclick',"spremiGlumca('dodajGlumca')");
+                            location.reload();
                         }
                     }
                 });

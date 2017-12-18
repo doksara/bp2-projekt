@@ -12,6 +12,8 @@
     
     <div class="container">
 
+        <!--Table manager za unos serija-->
+
         <div id="tableManager" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -40,6 +42,9 @@
                             <hr>
                             <h3>Ocjena</h3>
                             <div id="ocjenaView"></div>
+                            <hr>
+                            <h3>Glumac</h3>
+                            <div id="nazivGlumcaView"></div>
                         </div>
                     </div>
 
@@ -51,8 +56,45 @@
             </div>
         </div>
 
+        <!--Table Manager za unos glumca-->
+
+        <div id="tableManagerGlumac" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Novi glumac</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="editContentGlumac">
+                            <input type="text" class="form-control" placeholder="Ime i prezime glumca" id="nazivGlumca"><br>
+                            <p>Spol:</p>
+                            <select class="form-control" id="spolGlumca">
+                                <option>Musko</option>
+                                <option>Zensko</option>
+                            </select><br>
+                            <p>Datum rodenja:</p>
+                            <input type="date" class="form-control" placeholder="Datum Rodenja" id="datumRodenja"><br>
+                            <p>Pridruzi seriji:</p>
+                            <input type="text" class="form-control" placeholder="Serija" id="glumacSerija"><br>
+                            <input type="hidden" id="editRowIDGlumac" value="0">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">Zatvori</button>
+                          <input type="button" id="manageBtnGlumac" value="Spremi" onclick="spremiGlumca('dodajGlumca')" class="btn btn-success">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Jumbotron (slika) iznad tablice-->
+
         <div class="jumbotron">
         </div>
+
+        <!--Tablica sa serijama koje smo unijeli-->
 
         <div class="row">
             <div class="col-lg-12">
@@ -79,6 +121,8 @@
             </div>
         </div>
     </div>
+
+    <!--Skripte koje koristimo-->
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
