@@ -4,8 +4,13 @@ body {
     font-family: 'Roboto Slab', serif;
 }
 
+#prikaziStatistiku {
+    background-color: #e0e0d1;
+    border: 1px solid grey;
+}
+
 .jumbotron {
-    height: 250px;
+    height: 230px;
     background-image: url(../OM.jpeg);
     background-size: cover;
     background-repeat: no-repeat;

@@ -8,10 +8,14 @@
             
             $sql_1 = $conn->query("SELECT naziv, opis, ocjena FROM serije WHERE id='$rowID'");
             $sql_2 = $conn->query("SELECT g.naziv FROM glumac g LEFT JOIN serija_glumci sg ON g.id=sg.id_glumca WHERE sg.id_serije='$rowID'");
-            
+            $sql_3 = $conn->query("SELECT tv.naziv FROM tv_kuca tv LEFT JOIN serija_tvkuca stv ON tv.id=stv.id_tvKuce WHERE stv.id_serije='$rowID'");
+            $sql_4 = $conn->query("SELECT t.tag FROM tagovi t LEFT JOIN serije_tagovi st ON t.id=st.id_taga WHERE st.id_serije='$rowID'");
+
             $data_1 = $sql_1->fetch_array();
             $data_2 = $sql_2->fetch_array();
-            
+            $data_3 = $sql_3->fetch_array();
+            $data_4 = $sql_4->fetch_array();
+
             $jsonArray_1 = array(
                 'naziv' => $data_1['naziv'],
                 'opis' => $data_1['opis'],
@@ -22,7 +26,15 @@
                 'nazivGlumca' => $data_2['naziv'] 
             );
 
-            $result = array_merge($jsonArray_1, $jsonArray_2);
+            $jsonArray_3 = array(
+                'nazivTVkuce' => $data_3['naziv']
+            );
+
+            $jsonArray_4 = array(
+                'Tagovi' => $data_4['tag']
+            );
+
+            $result = array_merge($jsonArray_1, $jsonArray_2, $jsonArray_3, $jsonArray_4);
             exit(json_encode($result));
         }
 
@@ -59,8 +71,6 @@
             $conn->query("DELETE from serije WHERE id='$rowID'");
             exit("Serija je obrisana!");
         }
-
- 
 
 
         if ($_POST['key'] == 'updateRow') {
@@ -120,6 +130,74 @@
                               VALUES ('$idSerija', '$idGlumac')");
                 exit("success");
             }
+        }
+
+        if ($_POST["key"] == "dodajTVkucu") {
+            $nazivTVkuce = $conn->real_escape_string($_POST['nazivTVkuce']);
+            $TVkucaSerija = $conn->real_escape_string($_POST['TVkucaSerija']);
+
+            $sql_1 = $conn->query("SELECT id FROM serije WHERE naziv = '$TVkucaSerija'");
+
+            if ($sql_1->num_rows < 1)
+            {
+                exit("Nepostojeca serija!");
+            }
+            else {
+                $redSerija = mysqli_fetch_assoc($sql_1);
+                $idSerija = $redSerija["id"];
+                $conn->query("INSERT INTO tv_kuca (naziv)
+                              VALUES ('$nazivTVkuce')");
+
+                $sql_2 = $conn->query("SELECT id FROM tv_kuca WHERE naziv = '$nazivTVkuce'");
+                $redTVkuca = mysqli_fetch_assoc($sql_2);
+                $idTVkuca = $redTVkuca["id"];
+
+                $conn->query("INSERT INTO serija_tvkuca (id_serije, id_tvKuce)
+                              VALUES ('$idSerija', '$idTVkuca')");
+                exit("success");
+            }
+        }
+
+        if ($_POST["key"] == "dodajTagove") {
+            $Tagovi = $conn->real_escape_string($_POST['Tagovi']);
+            $TagoviSerija = $conn->real_escape_string($_POST['TagoviSerija']);
+
+            $sql_1 = $conn->query("SELECT id FROM serije WHERE naziv = '$TagoviSerija'");
+
+            if ($sql_1->num_rows < 1)
+            {
+                exit("Nepostojeca serija!");
+            }
+            else {
+                $redSerija = mysqli_fetch_assoc($sql_1);
+                $idSerija = $redSerija["id"];
+                $conn->query("INSERT INTO tagovi (tag)
+                              VALUES ('$Tagovi')");
+
+                $sql_2 = $conn->query("SELECT id FROM tagovi WHERE tag = '$Tagovi'");
+                $redTagovi = mysqli_fetch_assoc($sql_2);
+                $idTagovi = $redTagovi["id"];
+
+                $conn->query("INSERT INTO serije_tagovi (id_serije, id_taga)
+                              VALUES ('$idSerija', '$idTagovi')");
+                exit("success");
+            }
+        }
+
+        if ($_POST['key'] == 'viewStatistics') {
+
+            $sql = $conn->query("SELECT broj_serija, broj_glumaca, broj_tvKuca, broj_tagova FROM statistika");
+            
+            $red = fetch_array($sql);
+
+            $jsonArray = array(
+                'brojSerija' => $red["broj_serija"],
+                'brojGlumaca' => $red['broj_glumaca'],
+                'brojTVkuca' => $red['broj_tvKuca'],
+                'brojTagova' => $red['broj_tagova']
+            );
+
+            exit(json_encode($jsonArray));
         }
     }
 ?>

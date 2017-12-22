@@ -23,7 +23,9 @@
 
                     <div class="modal-body">
                         <div id="editContent">
+                            <p>Naziv: </p>
                             <input type="text" class="form-control" placeholder="Naziv serije" id="naziv"><br>
+                            <p>Opis: </p>
                             <textarea class="form-control" placeholder="Kratki opis serije.." id="opis"></textarea><br>
                             <p>Vasa ocjena:</p>
                             <select class="form-control" id="ocjena">
@@ -45,6 +47,12 @@
                             <hr>
                             <h3>Glumac</h3>
                             <div id="nazivGlumcaView"></div>
+                            <hr>
+                            <h3>TV kuca</h3>
+                            <div id="nazivTVkuceView"></div>
+                            <hr>
+                            <h3>Tagovi</h3>
+                            <div id="TagoviView"></div>
                         </div>
                     </div>
 
@@ -89,6 +97,89 @@
             </div>
         </div>
 
+        <!--Table Manager za unos TV kuce-->
+
+        <div id="tableManagerTVkuca" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Nova TV kuca</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="editContentTVkuca">
+                            <input type="text" class="form-control" placeholder="Naziv TV kuce" id="nazivTVkuce"><br>
+                            <p>Pridruzi seriji:</p>
+                            <input type="text" class="form-control" placeholder="Serija" id="TVkucaSerija"><br>
+                            <input type="hidden" id="editRowIDTVkuca" value="0">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">Zatvori</button>
+                          <input type="button" id="manageBtnTVkuca" value="Spremi" onclick="spremiTVkucu('dodajTVkucu')" class="btn btn-success">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Table Manager za unos Tagova-->
+
+        <div id="tableManagerTagovi" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Novi Tagovi</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <div id="editContentTagovi">
+                            <p>Unesite tagove odvojene zarezom: </p>
+                            <input type="text" class="form-control" placeholder="Tagovi (sci-fi, akcija, spin-off itd.)" id="Tagovi"><br>
+                            <p>Pridruzi seriji:</p>
+                            <input type="text" class="form-control" placeholder="Serija" id="TagoviSerija"><br>
+                            <input type="hidden" id="editRowIDTagovi" value="0">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">Zatvori</button>
+                          <input type="button" id="manageBtnTagovi" value="Spremi" onclick="spremiTagove('dodajTagove')" class="btn btn-success">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal za prikaz statistike-->
+
+        <div id="tablicaStatistike" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Statistika</h4>
+                        </div>
+    
+                        <div class="modal-body">
+                            <p>Broj unesenih serija:</p>
+                            <div id="broj_serijaView"></div>
+                            <hr>
+                            <p>Broj unesenih glumaca:</p>
+                            <div id="broj_glumacaView"></div>
+                            <hr>
+                            <p>Broj unesenih TV kuca:</p>
+                            <div id="broj_tvKucaView"></div>
+                            <hr>
+                            <p>Broj unesenih tagova:</p>
+                            <div id="broj_tagovaView"></div>
+                        </div>
+    
+                        <div class="modal-footer">
+                              <button type="button" class="btn btn-primary" data-dismiss="modal">Zatvori</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         <!--Jumbotron (slika) iznad tablice-->
 
         <div class="jumbotron">
@@ -98,7 +189,8 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <input style="float: right" type="button" id="dodajTag" class="btn btn-success odvoji" value="Dodaj Tag">
+                <input style="float: right" type="button" onclick="prikaziStatistiku()" class="btn btn-default odvoji" value="Prikazi statistiku">
+                <input style="float: right" type="button" id="dodajTagove" class="btn btn-success odvoji" value="Dodaj Tagove">
                 <input style="float: right" type="button" id="dodajTVkucu" class="btn btn-success odvoji" value="Dodaj TV kucu">
                 <input style="float: right" type="button" id="dodajGlumca" class="btn btn-success odvoji" value="Dodaj Glumca">
                 <input style="float: right" type="button" id="dodajNovu" class="btn btn-success odvoji" value="Dodaj Seriju">

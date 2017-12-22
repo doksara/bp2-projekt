@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+            /* Table manager za unos serija */
+
             $("#dodajNovu").on('click', function () {
                 $("#tableManager").modal('show');
             });
@@ -14,6 +17,8 @@ $(document).ready(function() {
                $("#manageBtn").show();
             });
 
+            /* Table manager za unos glumaca */
+
             $("#dodajGlumca").on('click', function () {
                 $("#tableManagerGlumac").modal('show');
             });
@@ -27,6 +32,40 @@ $(document).ready(function() {
                $("#manageBtnGlumac").attr('value', 'Dodaj novog').attr('onclick', "spremiGlumca('dodajGlumca')");
                $("#manageBtnGlumac").show();
             });
+
+            /* Table manager za unos TV kuce */
+
+            $("#dodajTVkucu").on('click', function () {
+                $("#tableManagerTVkuca").modal('show');
+            });
+
+            $("#tableManagerTVkuca").on('hidden.bs.modal', function (){
+               $("#showContentTVkuca").fadeOut();
+               $("#editContentTVkuca").fadeIn();
+               $("#editRowIDTVkuca").val(0);
+               $("#nazivTVkuce").val("");
+               $("#TVkucaSerija").val("");
+               $("#manageBtnTVkuca").attr('value', 'Dodaj novu').attr('onclick', "spremiTVkucu('dodajTVkucu')");
+               $("#manageBtnTVkuca").show();
+            });
+
+            /* Table manager za unos TV kuce */
+
+            $("#dodajTagove").on('click', function () {
+                $("#tableManagerTagovi").modal('show');
+            });
+
+            $("#tableManagerTagovi").on('hidden.bs.modal', function (){
+               $("#showContentTagovi").fadeOut();
+               $("#editContentTagovi").fadeIn();
+               $("#editRowIDTagovi").val(0);
+               $("#Tagovi").val("");
+               $("#TagoviSerija").val("");
+               $("#manageBtnTagovi").attr('value', 'Dodaj nove').attr('onclick', "spremiTagove('dodajTagove')");
+               $("#manageBtnTagovi").show();
+            });
+
+            /* Pozivamo funkciju za prikaz podataka */
 
             getExistingData(0, 10);
         });
@@ -64,6 +103,8 @@ $(document).ready(function() {
                         $("#opisView").html(response.opis);
                         $("#ocjenaView").html(response.ocjena);
                         $("#nazivGlumcaView").html(response.nazivGlumca);
+                        $("#nazivTVkuceView").html(response.nazivTVkuce);
+                        $("#TagoviView").html(response.Tagovi);
                         $("#manageBtn").hide();
                     } else {
                         $("#editContent").fadeIn();
@@ -71,6 +112,7 @@ $(document).ready(function() {
                         $("#showContent").fadeOut();
                         $("#naziv").val(response.naziv);
                         $("#opis").val(response.opis);
+                        $("#ocjena").val(response.ocjena);
                         $("#manageBtn").attr('value', 'Spremi promjene').attr('onclick', "spremiPodatke('updateRow')");
                     }
 
@@ -169,6 +211,86 @@ $(document).ready(function() {
                     }
                 });
             }
+        }
+
+        function spremiTVkucu(key) {
+            var nazivTVkuce = $("#nazivTVkuce");
+            var TVkucaSerija = $("#TVkucaSerija")
+            var editRowIDTVkuca  = $("#editRowIDTVkuca");
+
+            if (isNotEmpty(nazivTVkuce)) {
+                $.ajax({
+                    url: 'ajax.php',
+                    method: 'POST',
+                    dataType: 'text',
+                    data: {
+                        key: key,
+                        nazivTVkuce: nazivTVkuce.val(),
+                        TVkucaSerija: TVkucaSerija.val(),
+                        rowID: editRowIDTVkuca.val()
+                    }, success: function (response) {
+                        if (response != "success")
+                            alert(response);
+                        else {
+                            $("#TVkuca_"+editRowIDTVkuca.val()).html(nazivTVkuce.val());
+                            nazivTVkuce.val('');
+                            TVkucaSerija.val('');
+                            $("#tableManagerTVkuca").modal('hide');
+                            $("#manageBtnTVkuca").attr('value','Dodaj TV kucu').attr('onclick',"spremiTVkucu('dodajTVkucu')");
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        }
+
+        function spremiTagove(key) {
+            var Tagovi = $("#Tagovi");
+            var TagoviSerija = $("#TagoviSerija")
+            var editRowIDTagovi  = $("#editRowIDTagovi");
+
+            if (isNotEmpty(Tagovi)) {
+                $.ajax({
+                    url: 'ajax.php',
+                    method: 'POST',
+                    dataType: 'text',
+                    data: {
+                        key: key,
+                        Tagovi: Tagovi.val(),
+                        TagoviSerija: TagoviSerija.val(),
+                        rowID: editRowIDTagovi.val()
+                    }, success: function (response) {
+                        if (response != "success")
+                            alert(response);
+                        else {
+                            $("#Tagovi_"+editRowIDTagovi.val()).html(Tagovi.val());
+                            Tagovi.val('');
+                            TagoviSerija.val('');
+                            $("#tableManagerTagovi").modal('hide');
+                            $("#manageBtnTagovi").attr('value','Dodaj Tagove').attr('onclick',"spremiTagove('dodajTagove')");
+                            location.reload();
+                        }
+                    }
+                });
+            }
+        }
+
+        function prikaziStatistiku() {
+            $.ajax({
+                url: 'ajax.php',
+                method: 'POST',
+                dataType: 'json',
+                data: {
+                    key: 'viewStatistics',
+                }, success: function (response) {
+                    $("#broj_serijaView").html(response.brojSerija);
+                    $("#broj_glumacaView").html(response.brojGlumaca);
+                    $("#broj_tvKucaView").html(response.brojTVkuca);
+                    $("#broj_tagovaView").html(response.brojTagova);
+                }
+            });
+            
+            $("#tablicaStatistike").modal("show");
         }
 
         function isNotEmpty(caller) {
